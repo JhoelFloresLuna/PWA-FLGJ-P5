@@ -5,6 +5,13 @@ const CACHE_DYNAMIC_NAME = 'dynamic-v1'
 const CACHE_STATIC_NAME = 'static-v1'
 const CACHE_INMUTABLE_NAME = 'inmutable_v1'
 
+const URL = self.location.href
+let ruta=''
+//console.log('URL',URL);
+URL.startsWith('https:')?ruta='/PWA-FLGJ-P5/':ruta="/"
+//console.log('ruta',ruta);
+
+
 const cleanCache = (name, sizeItems) => {
     caches.open(name).then(cache => {
         cache.keys().then(keys => {
@@ -19,16 +26,17 @@ const cleanCache = (name, sizeItems) => {
 }
 
 self.addEventListener('install', event => {
+    
     const promesa = caches.open(CACHE_STATIC_NAME)
         .then(cache => {
             return cache.addAll([
-                '/',
-                'index.html', 
-                'css/page.css',
-                'img/inicio.jpg',
-                'js/app.js',
-                'views/offline.html',
-                'img/noInternet.jpg'
+                `${ruta}`,
+                `${ruta}index.html`, 
+                `${ruta}css/page.css`,
+                `${ruta}img/inicio.jpg`,
+                `${ruta}js/app.js`,
+                `${ruta}views/offline.html`,
+                `${ruta}img/noInternet.jpg`
             ])
         });
 
@@ -77,11 +85,11 @@ self.addEventListener('fetch', event => {
         }).catch(error => {
             console.log("Error al solicitar recurso");
             if(event.request.headers.get('accept').includes('text/html')){
-                return caches.match('/views/offline.html')
+                return caches.match(`${ruta}views/offline.html`)
             }
             
             if(event.request.headers.get('accept').includes('image/')){
-                return caches.match('/img/noInternet.jpg')
+                return caches.match(`${ruta}img/noInternet.jpg`)
             }
         })
 

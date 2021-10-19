@@ -1,5 +1,9 @@
 if(navigator.serviceWorker){
-    navigator.serviceWorker.register('./sw.js')
+    let url=''
+    const BASE_URL=window.location.href
+    BASE_URL.startsWith('https:')?url='/PWA-FLGJ-P5/sw.js':url="/sw.js"
+    navigator.serviceWorker.register(url)
+    
 }
 
 // if(window.caches){
